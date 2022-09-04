@@ -85,9 +85,11 @@ AFRAME.registerSystem('mindar-image-system', {
       return;
     }
 
-    navigator.mediaDevices.getUserMedia({audio: false, video: {
+    const constraint = {audio: false, video: {
       facingMode: 'environment',
-    }}).then((stream) => {
+    }};
+
+    const onsuccess = (stream) => {
       this.video.addEventListener( 'loadedmetadata', () => {
         //console.log("video ready...", this.video);
         this.video.setAttribute('width', this.video.videoWidth);
@@ -95,10 +97,18 @@ AFRAME.registerSystem('mindar-image-system', {
         this._startAR();
       });
       this.video.srcObject = stream;
-    }).catch((err) => {
+    }
+
+    const onerror = (err) => {
       console.log("getUserMedia error", err);
       this.el.emit("arError", {error: 'VIDEO_FAIL'});
-    });
+    }
+    navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+    ? navigator.mediaDevices.getUserMedia(constraint).then(onsuccess, onerror)
+    : navigator.getUserMedia
+    ? navigator.getUserMedia(constraint, onsuccess, onerror)
+    : console.error(new Error('当前浏览器不支持打开摄像头'));
+
   },
 
   _startAR: async function() {
