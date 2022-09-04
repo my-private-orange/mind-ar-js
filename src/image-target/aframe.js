@@ -96,21 +96,22 @@ AFRAME.registerSystem('mindar-image-system', {
 
     const onsuccess = (stream) => {
       console.log('onsuccess')
-      this._startAR();
-
       this.video.addEventListener( 'loadedmetadata', () => {
-        console.log('loadedmetadata')
         //console.log("video ready...", this.video);
         this.video.setAttribute('width', this.video.videoWidth);
         this.video.setAttribute('height', this.video.videoHeight);
+        this._startAR();
       });
       this.video.srcObject = stream;
     }
 
     const onerror = (err) => {
+      console.log('onerror')
+
       console.log("getUserMedia error", err);
       this.el.emit("arError", {error: 'VIDEO_FAIL'});
     }
+    console.log('getUserMedia')
     navigator.mediaDevices && navigator.mediaDevices.getUserMedia
     ? navigator.mediaDevices.getUserMedia(constraint).then(onsuccess, onerror)
     : navigator.getUserMedia
