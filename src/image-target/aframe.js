@@ -84,6 +84,8 @@ AFRAME.registerSystem('mindar-image-system', {
 
     this.video.addEventListener( 'loadedmetadata', () => {
       console.log('loadedmetadata', this.video.videoWidth, this.video.videoHeight)
+      console.log('width', this.video.videoWidth)
+      console.log('height', this.video.videoHeight)
       //console.log("video ready...", this.video);
       this.video.setAttribute('width', this.video.videoWidth);
       this.video.setAttribute('height', this.video.videoHeight);
