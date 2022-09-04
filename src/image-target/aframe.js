@@ -67,9 +67,11 @@ AFRAME.registerSystem('mindar-image-system', {
   },
 
   _startVideo: function() {
-    this.video = document.createElement('video');
+    this.video = document.querySelector('video');
 
-    this.video.setAttribute('autoplay', '');
+    if (!this.video) {
+      this.video = document.createElement('video');
+      this.video.setAttribute('autoplay', '');
     this.video.setAttribute('muted', '');
     this.video.setAttribute('playsinline', '');
     this.video.style.position = 'absolute'
@@ -77,13 +79,16 @@ AFRAME.registerSystem('mindar-image-system', {
     this.video.style.left = '0px'
     this.video.style.zIndex = '-2'
     this.container.appendChild(this.video);
-
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      // TODO: show unsupported error
-      this.el.emit("arError", {error: 'VIDEO_FAIL'});
-      this.ui.showCompatibility();
-      return;
     }
+
+    
+
+    // if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    //   // TODO: show unsupported error
+    //   this.el.emit("arError", {error: 'VIDEO_FAIL'});
+    //   this.ui.showCompatibility();
+    //   return;
+    // }
 
     const constraint = {audio: false, video: {
       facingMode: 'environment',
