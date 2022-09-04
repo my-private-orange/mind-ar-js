@@ -83,11 +83,11 @@ AFRAME.registerSystem('mindar-image-system', {
     }
 
     this.video.addEventListener( 'loadedmetadata', () => {
-      console.log('loadedmetadata')
+      console.log('loadedmetadata', this.video.videoWidth, this.video.videoHeight)
       //console.log("video ready...", this.video);
-      // this.video.setAttribute('width', this.video.videoWidth);
-      // this.video.setAttribute('height', this.video.videoHeight);
-      // this._startAR();
+      this.video.setAttribute('width', this.video.videoWidth);
+      this.video.setAttribute('height', this.video.videoHeight);
+      this._startAR();
     });
     
 
@@ -107,9 +107,9 @@ AFRAME.registerSystem('mindar-image-system', {
       'srcObject' in this.video ? ((this.video.src = ''), (this.video.srcObject = stream)) : (this.video.src = URL.createObjectURL(stream));
       this.video.play();
 
-      this.video.setAttribute('width', 640);
-      this.video.setAttribute('height', 480);
-      this._startAR();
+      // this.video.setAttribute('width', 640);
+      // this.video.setAttribute('height', 480);
+      // this._startAR();
     }
 
     const onerror = (err) => {
