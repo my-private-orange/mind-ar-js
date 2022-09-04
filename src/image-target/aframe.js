@@ -67,6 +67,7 @@ AFRAME.registerSystem('mindar-image-system', {
   },
 
   _startVideo: function() {
+    console.log('start video')
     this.video = document.querySelector('video');
 
     if (!this.video) {
