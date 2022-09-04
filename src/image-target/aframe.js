@@ -117,6 +117,7 @@ AFRAME.registerSystem('mindar-image-system', {
   },
 
   _startAR: async function() {
+    console.log('startAR')
     const video = this.video;
     const container = this.container;
 
@@ -147,19 +148,26 @@ AFRAME.registerSystem('mindar-image-system', {
       }
     });
 
+    console.log('controller init')
+
     this._resize();
+    console.log('resized')
     window.addEventListener('resize', this._resize.bind(this));
 
     const {dimensions: imageTargetDimensions} = await this.controller.addImageTargets(this.imageTargetSrc);
 
+    console.log('add targets')
     for (let i = 0; i < this.anchorEntities.length; i++) {
       const {el, targetIndex} = this.anchorEntities[i];
       if (targetIndex < imageTargetDimensions.length) {
         el.setupMarker(imageTargetDimensions[targetIndex]);
       }
     }
+    console.log('setupMarker')
+
 
     await this.controller.dummyRun(this.video);
+    console.log('dummyRun')
     this.el.emit("arReady");
     this.ui.hideLoading();
     this.ui.showScanning();
